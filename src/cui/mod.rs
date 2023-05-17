@@ -2,7 +2,7 @@ mod options;
 
 use self::options::Opts;
 pub(super) use self::options::Tasks;
-use crate::usecase;
+use crate::tasks;
 use clap::Parser;
 
 #[derive(Debug, Clone)]
@@ -19,9 +19,9 @@ impl Cui {
 
     pub(super) async fn process(&self) {
         let paths =
-            usecase::make_start_and_end_paths(self.opts.src(), self.opts.dst(), self.opts.tasks())
+            tasks::make_start_and_end_paths(self.opts.src(), self.opts.dst(), self.opts.tasks())
                 .expect("Fail to make paths.");
-        usecase::convert_files(&self.opts.tasks, paths)
+        tasks::convert_files(&self.opts.tasks, paths)
             .expect("Fail to convert input files to output files.");
     }
 }
