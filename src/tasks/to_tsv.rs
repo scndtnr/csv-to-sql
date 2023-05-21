@@ -26,7 +26,6 @@ pub(crate) fn to_tsv(input_path: PathBuf, output_path: PathBuf) -> Result<()> {
     for result in csv_reader.records() {
         let record = result?;
         tsv_writer.write_record(&record)?;
-        println!("{:?}", record);
     }
 
     println!(
