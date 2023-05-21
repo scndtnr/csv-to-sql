@@ -7,6 +7,8 @@ mod to_table_definition;
 mod to_tsv;
 mod to_utf8;
 
+use std::fs;
+
 pub(super) use controller::{convert_files, make_start_and_end_paths};
 
 /// 文字列を `PathBuf` に変換する
@@ -22,7 +24,7 @@ pub(super) fn read_input_files(src_path: PathBuf) -> Result<Vec<PathBuf>> {
     }
 
     // 指定path配下のファイル一覧を返す
-    Ok(std::fs::read_dir(src_path)?
+    Ok(fs::read_dir(src_path)?
         .filter_map(|entry| entry.ok())
         .map(|entry| entry.path())
         .collect())
