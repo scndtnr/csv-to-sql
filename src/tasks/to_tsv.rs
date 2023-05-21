@@ -7,15 +7,13 @@ pub(crate) fn to_tsv(input_path: PathBuf, output_path: PathBuf) -> Result<()> {
         input_path.to_string_lossy()
     );
 
-    // 拡張子をcsvからtsvに変更する
-    let output_path = output_path.with_extension("tsv");
-
     // csv用readerインスタンスを作成する
     let mut csv_reader = csv::ReaderBuilder::new()
         .has_headers(true)
         .delimiter(b',')
         .from_path(&input_path)?;
     // tsv用writerインスタンスを作成する
+    let output_path = output_path.with_extension("tsv");
     let mut tsv_writer = csv::WriterBuilder::new()
         .has_headers(true)
         .delimiter(b'\t')
