@@ -1,5 +1,5 @@
 use anyhow::{bail, Result};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 
 use super::to_query::to_query;
 use super::to_table_definition::to_table_definition;
@@ -31,6 +31,15 @@ fn path_to_dir(path: PathBuf) -> Result<PathBuf> {
     }
 }
 
+/// 指定されたパスが存在しなかったら、ディレクトリを作成する
+fn create_directory(dir_path: &Path) -> Result<()> {
+    if !dir_path.exists() {
+        println!("Create Directory: {}", dir_path.to_string_lossy());
+        std::fs::create_dir_all(dir_path)?
+    }
+    Ok(())
+}
+
 /// 入力ファイルパスと出力ファイルパスの一覧を生成する
 pub(crate) fn make_start_and_end_paths(
     src: &str,
@@ -48,6 +57,7 @@ pub(crate) fn make_start_and_end_paths(
         Tasks::Definition => "table_definition",
     };
     let output_dir = dst_dir.join(output_dir_name);
+    create_directory(&output_dir)?;
 
     let paths: Vec<(PathBuf, PathBuf)> = read_input_files(src_path)?
         .into_iter()
