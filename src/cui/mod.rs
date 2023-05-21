@@ -18,6 +18,7 @@ impl Cui {
     }
 
     pub(super) async fn process(&self) {
+        println!("args: {:#?}", &self.opts);
         let paths =
             tasks::make_start_and_end_paths(self.opts.src(), self.opts.dst(), self.opts.tasks())
                 .expect("Fail to make paths.");
