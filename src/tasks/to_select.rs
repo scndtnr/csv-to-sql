@@ -28,7 +28,7 @@ pub(crate) fn to_select(input_path: PathBuf, output_path: PathBuf) -> Result<()>
 
     // select文テキストを出力先SQLファイルに書き込む
     let file_name = format!(
-        "insert_{}",
+        "select_{}",
         output_path.file_name().unwrap().to_string_lossy()
     );
     let output_path = output_path.with_file_name(file_name);
