@@ -1,6 +1,7 @@
 use anyhow::{bail, Result};
 use std::path::{Path, PathBuf};
 
+use super::to_insert::to_insert;
 use super::to_select::to_select;
 use super::to_table_definition::to_table_definition;
 use super::to_tsv::to_tsv;
@@ -77,7 +78,7 @@ pub(crate) fn convert_files(task: &Task, paths: Vec<(PathBuf, PathBuf)>) -> Resu
         Task::ToUtf8 => to_utf8,
         Task::ToTsv => to_tsv,
         Task::ToSelect => to_select,
-        Task::ToInsert => todo!(),
+        Task::ToInsert => to_insert,
         Task::ToDefinition => to_table_definition,
     };
     paths.into_iter().for_each(|(input, output)| {

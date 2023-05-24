@@ -2,6 +2,7 @@ use anyhow::Result;
 use std::{path::PathBuf, str::FromStr};
 
 mod controller;
+mod to_insert;
 mod to_select;
 mod to_table_definition;
 mod to_tsv;
