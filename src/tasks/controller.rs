@@ -7,7 +7,7 @@ use super::to_tsv::to_tsv;
 use super::to_utf8::to_utf8;
 use super::{convert_to_path, read_input_files};
 
-use crate::cui::Tasks;
+use crate::cui::Task;
 
 /// 入力パス文字列と出力パス文字列のパス変換と存在チェック
 fn convert_to_paths(src: &str, dst: &str) -> Result<(PathBuf, PathBuf)> {
@@ -44,17 +44,18 @@ fn create_directory(dir_path: &Path) -> Result<()> {
 pub(crate) fn make_start_and_end_paths(
     src: &str,
     dst: &str,
-    tasks: &Tasks,
+    task: &Task,
 ) -> Result<Vec<(PathBuf, PathBuf)>> {
     // パス変換と存在チェック
     let (src_path, dst_path) = convert_to_paths(src, dst)?;
     let dst_dir = path_to_dir(dst_path)?;
 
-    let output_dir_name = match tasks {
-        Tasks::Utf8 => "utf8",
-        Tasks::Tsv => "tsv",
-        Tasks::Query => "query",
-        Tasks::Definition => "table_definition",
+    let output_dir_name = match task {
+        Task::ToUtf8 => "utf8",
+        Task::ToTsv => "tsv",
+        Task::ToSelect => "sql/select",
+        Task::ToInsert => "sql/insert",
+        Task::ToDefinition => "table_definition",
     };
     let output_dir = dst_dir.join(output_dir_name);
     create_directory(&output_dir)?;
@@ -71,12 +72,13 @@ pub(crate) fn make_start_and_end_paths(
 }
 
 /// 指定されたタスクに応じて変換処理を行う
-pub(crate) fn convert_files(tasks: &Tasks, paths: Vec<(PathBuf, PathBuf)>) -> Result<()> {
-    let convert_process = match tasks {
-        Tasks::Utf8 => to_utf8,
-        Tasks::Tsv => to_tsv,
-        Tasks::Query => to_query,
-        Tasks::Definition => to_table_definition,
+pub(crate) fn convert_files(task: &Task, paths: Vec<(PathBuf, PathBuf)>) -> Result<()> {
+    let convert_process = match task {
+        Task::ToUtf8 => to_utf8,
+        Task::ToTsv => to_tsv,
+        Task::ToSelect => to_query,
+        Task::ToInsert => todo!(),
+        Task::ToDefinition => to_table_definition,
     };
     paths.into_iter().for_each(|(input, output)| {
         convert_process(input, output).expect("Fail to convert process")

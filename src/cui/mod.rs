@@ -1,7 +1,7 @@
 mod options;
 
 use self::options::Opts;
-pub(super) use self::options::Tasks;
+pub(super) use self::options::Task;
 use crate::tasks;
 use clap::Parser;
 
@@ -20,9 +20,9 @@ impl Cui {
     pub(super) async fn process(&self) {
         println!("args: {:#?}", &self.opts);
         let paths =
-            tasks::make_start_and_end_paths(self.opts.src(), self.opts.dst(), self.opts.tasks())
+            tasks::make_start_and_end_paths(self.opts.src(), self.opts.dst(), self.opts.task())
                 .expect("Fail to make paths.");
-        tasks::convert_files(&self.opts.tasks, paths)
+        tasks::convert_files(&self.opts.task, paths)
             .expect("Fail to convert input files to output files.");
     }
 }
