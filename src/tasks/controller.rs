@@ -53,8 +53,8 @@ pub(crate) fn make_start_and_end_paths(
     let output_dir_name = match task {
         Task::ToUtf8 => "utf8",
         Task::ToTsv => "tsv",
-        Task::ToSelect => "sql/select",
-        Task::ToInsert => "sql/insert",
+        Task::ToSelect => "sql",
+        Task::ToInsert => "sql",
         Task::ToDefinition => "table_definition",
     };
     let output_dir = dst_dir.join(output_dir_name);

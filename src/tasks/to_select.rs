@@ -27,6 +27,11 @@ pub(crate) fn to_select(input_path: PathBuf, output_path: PathBuf) -> Result<()>
     let output_text = records_to_select_query(&headers, records);
 
     // select文テキストを出力先SQLファイルに書き込む
+    let file_name = format!(
+        "insert_{}",
+        output_path.file_name().unwrap().to_string_lossy()
+    );
+    let output_path = output_path.with_file_name(file_name);
     let output_path = output_path.with_extension("sql");
     let mut output_file = fs::File::create(&output_path).with_context(|| {
         format!(
@@ -71,7 +76,8 @@ fn to_select_clause(headers: &StringRecord, record: HashMap<String, String>) -> 
                 .get(header)
                 .with_context(|| format!("Fail to get cell data by column name: {}", header))
                 .unwrap();
-            format!("'{}' as \"{}\"", cell_data, header)
+            let cell_data = super::convert_to_null_string(cell_data);
+            format!("{} as \"{}\"", cell_data, header)
         })
         .collect();
     let select_clause = select_clause_vec.join(", ");

@@ -29,3 +29,14 @@ pub(super) fn read_input_files(src_path: PathBuf) -> Result<Vec<PathBuf>> {
         .map(|entry| entry.path())
         .collect())
 }
+
+/// 空文字列等を`null`表記に変換する
+fn convert_to_null_string(s: &str) -> String {
+    match s {
+        s if s.is_empty() => "null".to_string(),
+        s if s == "\"\"" => "null".to_string(),
+        s if s == "''" => "null".to_string(),
+        s if s == "null" => "null".to_string(),
+        s => format!("'{}'", s),
+    }
+}
