@@ -2,7 +2,7 @@ use anyhow::Result;
 use std::{path::PathBuf, str::FromStr};
 
 mod controller;
-mod to_query;
+mod to_select;
 mod to_table_definition;
 mod to_tsv;
 mod to_utf8;

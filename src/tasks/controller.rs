@@ -1,7 +1,7 @@
 use anyhow::{bail, Result};
 use std::path::{Path, PathBuf};
 
-use super::to_query::to_query;
+use super::to_select::to_select;
 use super::to_table_definition::to_table_definition;
 use super::to_tsv::to_tsv;
 use super::to_utf8::to_utf8;
@@ -76,7 +76,7 @@ pub(crate) fn convert_files(task: &Task, paths: Vec<(PathBuf, PathBuf)>) -> Resu
     let convert_process = match task {
         Task::ToUtf8 => to_utf8,
         Task::ToTsv => to_tsv,
-        Task::ToSelect => to_query,
+        Task::ToSelect => to_select,
         Task::ToInsert => todo!(),
         Task::ToDefinition => to_table_definition,
     };

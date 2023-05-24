@@ -2,9 +2,9 @@ use anyhow::{Context, Result};
 use csv::StringRecord;
 use std::{collections::HashMap, fs, io::Write, path::PathBuf};
 
-pub(crate) fn to_query(input_path: PathBuf, output_path: PathBuf) -> Result<()> {
+pub(crate) fn to_select(input_path: PathBuf, output_path: PathBuf) -> Result<()> {
     println!(
-        "[to_query] Conversion Start. Input file: {}",
+        "[to_select] Conversion Start. Input file: {}",
         input_path.to_string_lossy()
     );
 
@@ -37,7 +37,7 @@ pub(crate) fn to_query(input_path: PathBuf, output_path: PathBuf) -> Result<()> 
     output_file.write_all(output_text.as_bytes())?;
 
     println!(
-        "[to_query] Conversion End. Output file: {}",
+        "[to_select] Conversion End. Output file: {}",
         output_path.to_string_lossy()
     );
 
