@@ -33,6 +33,7 @@ jobs:
       TOOL_NAME: 'csv-to-sql'
     steps:
       -
+        name: Fetch Sources
         uses: actions/checkout@v3
       -
         uses: Swatinem/rust-cache@v2
@@ -49,7 +50,10 @@ jobs:
         id: cargo-metadate
         shell: bash
         run: |
-          echo "cargoMetadata=$(cargo metadata --no-deps)" >> $GITHUB_OUTPUT
+          cargoMetadata=$(cargo metadata --no-deps)
+          version=$(fromJson(${cargoMetadata}).packages[0].version)
+          echo "cargoMetadata=${cargoMetadata}" >> $GITHUB_OUTPUT
+          echo "version=${version}" >> $GITHUB_OUTPUT
       -
         name: Exec cargo command
         run: cargo build --release --target=${{ matrix.target }}
@@ -61,5 +65,5 @@ jobs:
         name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.TOOL_NAME }}-v${{ fromJson(steps.cargo-metadate.outputs.cargoMetadata).packages[0].version }}-build-${{ matrix.target }}
+          name: ${{ env.TOOL_NAME }}-v${{ steps.cargo-metadate.outputs.version }}-build-${{ matrix.target }}
           path: target/${{ matrix.target }}/release/${{ env.TOOL_NAME }}${{ matrix.file_extention }}
