@@ -109,6 +109,7 @@ jobs:
       -
         name: Download Release Asset
         uses: actions/download-artifact@v3
+        id: asset
         with:
           name: ${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}
       -
@@ -119,6 +120,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare_release_draft.outputs.upload_url }} 
-          asset_path: ./${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}.zip
+          asset_path: ${{ steps.asset.outputs.download-path }}
           asset_name: ${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}.zip
           asset_content_type: application/zip
