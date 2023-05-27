@@ -43,6 +43,7 @@ jobs:
       -
         name: Get cargo metadata json for version information
         id: cargo-metadate
+        shell: bash
         run: |
           echo "cargoMetadata=$(cargo metadata --no-deps)" >> $GITHUB_OUTPUT
       -
