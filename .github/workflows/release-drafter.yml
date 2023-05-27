@@ -1,4 +1,4 @@
-name: cui_build
+name: release-drafter
 on:
   push:
     branches:
