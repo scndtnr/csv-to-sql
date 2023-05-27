@@ -26,6 +26,7 @@ jobs:
     env: 
       RUST_BACKTRACE: full
       TZ: 'Asia/Tokyo'
+      TOOL_NAME: 'csv-to-sql'
     steps:
       -
         uses: actions/checkout@v3
@@ -57,12 +58,12 @@ jobs:
         if: matrix.target == 'x86_64-unknown-linux-musl'
         uses: actions/upload-artifact@v3
         with:
-          name: build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/csv-to-sql
+          name: ${TOOL_NAME}-build-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/${TOOL_NAME}
       -
         name: Upload artifact for Windows
         if: matrix.target == 'x86_64-pc-windows-msvc'
         uses: actions/upload-artifact@v3
         with:
-          name: build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/csv-to-sql.exe
+          name: ${TOOL_NAME}-build-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/${TOOL_NAME}.exe
