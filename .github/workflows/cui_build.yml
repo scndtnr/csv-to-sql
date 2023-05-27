@@ -104,6 +104,9 @@ jobs:
   attach_assets_to_release_draft:
     name: Attach Assets to Release Draft
     needs: [build, prepare_release_draft]
+    permissions:
+      # write permission is required to create a github release
+      contents: write
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
