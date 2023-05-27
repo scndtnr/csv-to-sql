@@ -21,8 +21,12 @@ jobs:
         include:
           - target: x86_64-unknown-linux-musl
             os: ubuntu-latest
+            ls_command: ls
+            file_extention: ""
           - target: x86_64-pc-windows-msvc
             os: windows-latest
+            ls_command: dir
+            file_extention: ".exe"
     env: 
       RUST_BACKTRACE: full
       TZ: 'Asia/Tokyo'
@@ -50,26 +54,12 @@ jobs:
         name: Exec cargo command
         run: cargo build --release --target=${{ matrix.target }}
       -
-        name: Check release Directory for Linux
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+        name: Check release Directory
         run: |
-          ls target/${{ matrix.target }}/release/
+          ${{ matrix.ls_command }} target/${{ matrix.target }}/release/
       -
-        name: Check release Directory for Windows
-        if: matrix.target == 'x86_64-pc-windows-msvc'
-        run: |
-          dir target/${{ matrix.target }}/release/
-      -
-        name: Upload artifact for Linux
-        if: matrix.target == 'x86_64-unknown-linux-musl'
+        name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: ${{ env.TOOL_NAME }}-v${{ fromJson(steps.cargo-metadate.outputs.cargoMetadata).packages[0].version }}-build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/${{ env.TOOL_NAME }}
-      -
-        name: Upload artifact for Windows
-        if: matrix.target == 'x86_64-pc-windows-msvc'
-        uses: actions/upload-artifact@v3
-        with:
-          name: ${{ env.TOOL_NAME }}-v${{ fromJson(steps.cargo-metadate.outputs.cargoMetadata).packages[0].version }}-build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/${{ env.TOOL_NAME }}.exe
+          path: target/${{ matrix.target }}/release/${{ env.TOOL_NAME }}${{ matrix.file_extention }}
