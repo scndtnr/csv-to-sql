@@ -86,6 +86,17 @@ jobs:
       -
         name: Fetch Sources
         uses: actions/checkout@v3
+      # Remove old release drafts by using the curl request for the available releases with draft flag
+      -
+        name: Remove Old Release Drafts
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          curl -H "Authorization: Bearer ${GITHUB_TOKEN}" https://api.github.com/repos/$GITHUB_REPOSITORY/releases \
+            | tr '\r\n' ' ' \
+            | jq '.[] | select(.draft == true) | .id' \
+            | xargs -I '{}' \
+          curl -X DELETE -H "Authorization: Bearer ${GITHUB_TOKEN}" https://api.github.com/repos/$GITHUB_REPOSITORY/releases/{}
       -
         name: Create/Update Release Draft #ここでリリースノートを作成
         id: create-draft
