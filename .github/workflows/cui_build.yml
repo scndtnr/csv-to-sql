@@ -30,7 +30,7 @@ jobs:
     env: 
       RUST_BACKTRACE: full
       TZ: 'Asia/Tokyo'
-      TOOL_NAME: 'csv-to-sql'
+      APP_NAME: 'csv-to-sql'
     steps:
       -
         name: Fetch Sources
@@ -65,5 +65,5 @@ jobs:
         name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
-          name: ${{ env.TOOL_NAME }}-v${{ steps.cargo-metadate.outputs.version }}-build-${{ matrix.target }}
-          path: target/${{ matrix.target }}/release/${{ env.TOOL_NAME }}${{ matrix.file_extention }}
+          name: ${{ env.APP_NAME }}-v${{ steps.cargo-metadate.outputs.version }}-build-${{ matrix.target }}
+          path: target/${{ matrix.target }}/release/${{ env.APP_NAME }}${{ matrix.file_extention }}
