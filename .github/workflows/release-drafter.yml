@@ -102,9 +102,10 @@ jobs:
         id: create-draft
         uses: release-drafter/release-drafter@v5
         with:
-          version: ${{ needs.build.outputs.version }}
-          name: ${{ needs.build.outputs.version }}
-          tag: ${{ needs.build.outputs.version }}
+          commitish: main
+          version: v${{ needs.build.outputs.version }}
+          name: v${{ needs.build.outputs.version }}
+          tag: v${{ needs.build.outputs.version }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
