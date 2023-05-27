@@ -44,7 +44,7 @@ jobs:
         name: Get cargo metadata json for version information
         id: cargo-metadate
         run: |
-          echo "::set-output name=cargoMetadata::$(cargo metadata --no-deps)"
+          echo "cargoMetadata=$(cargo metadata --no-deps)" >> $GITHUB_OUTPUT
       -
         name: Exec cargo command
         run: cargo build --release --target=${{ matrix.target }}
