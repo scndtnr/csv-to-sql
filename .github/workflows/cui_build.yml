@@ -51,7 +51,7 @@ jobs:
         shell: bash
         run: |
           cargoMetadata=$(cargo metadata --no-deps --format-version=1)
-          version=$(fromJson("${cargoMetadata}").packages[0].version)
+          version=$(echo $cargoMetadata | jq --raw-output '.packages[0].version')
           echo "cargoMetadata=${cargoMetadata}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
       -
