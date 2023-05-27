@@ -105,15 +105,12 @@ jobs:
     name: Prepare Release Draft
     needs: [build, prepare_release_draft]
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: ${{ needs.build.outputs.targets }}
     steps:
       -
         name: Download Release Asset
         uses: actions/download-artifact@v3
         with:
-          name: ${{ needs.build.outputs.app_name_prefix }}${{ matrix.target }}
+          name: ${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}
       -
         name: Upload Release Asset #ここで成果物をリリースノートにアップロード
         id: upload-release-asset 
@@ -122,6 +119,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ needs.prepare_release_draft.outputs.upload_url }} 
-          asset_path: ./${{ needs.build.outputs.app_name_prefix }}${{ matrix.target }}.zip
-          asset_name: ${{ needs.build.outputs.app_name_prefix }}${{ matrix.target }}.zip
+          asset_path: ./${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}.zip
+          asset_name: ${{ needs.build.outputs.app_name_prefix }}${{ needs.build.outputs.targets }}.zip
           asset_content_type: application/zip
