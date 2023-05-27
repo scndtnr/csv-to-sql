@@ -75,6 +75,12 @@ jobs:
   prepare_release_draft:
     name: Prepare Release Draft
     needs: [build]
+    permissions:
+      # write permission is required to create a github release
+      contents: write
+      # write permission is required for autolabeler
+      # otherwise, read permission is required at least
+      pull-requests: write
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{ steps.create-draft.outputs.upload_url }}
