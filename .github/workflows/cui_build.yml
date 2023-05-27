@@ -6,7 +6,7 @@ on:
       - 'develop'
     paths:
       - 'src/*'
-      - '.github/workflows/*'
+      - '.github/workflows/cui_build.yml'
 
 jobs:
   build:
@@ -35,7 +35,7 @@ jobs:
           key: ${{ matrix.os }}-${{ matrix.target }}
       -
         name: Exec cargo command
-        run: cargo build --release --bin --target=${{ matrix.target }}
+        run: cargo build --release --target=${{ matrix.target }}
       -
         name: Check release Directory for Linux
         if: matrix.target == 'x86_64-unknown-linux-musl'
