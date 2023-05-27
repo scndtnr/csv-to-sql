@@ -50,8 +50,8 @@ jobs:
         id: cargo-metadate
         shell: bash
         run: |
-          cargoMetadata=$(cargo metadata --no-deps)
-          version=$(fromJson(${cargoMetadata}).packages[0].version)
+          cargoMetadata=$(cargo metadata --no-deps --format-version=1)
+          version=$(fromJson("${cargoMetadata}").packages[0].version)
           echo "cargoMetadata=${cargoMetadata}" >> $GITHUB_OUTPUT
           echo "version=${version}" >> $GITHUB_OUTPUT
       -
