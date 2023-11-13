@@ -13,7 +13,7 @@ anyhow = "1.0.71"
 chrono = "0.4.24"
 clap = {version = "4", features = ["derive"]}
 csv = "1.2.1"
-derive-new = "0.5.9"
+derive-new = "0.6.0"
 encoding_rs = "0.8.32"
 serde = { version = "1", features = ["derive"] }
 tokio = { version = "1", features = ["full"] }
